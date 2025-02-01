@@ -22,21 +22,21 @@ This project offers an API for managing and retrieving Frequently Asked Question
 ### Step 1: Clone the Repository
 
   ```bash
-  git clone https://github.com/ujjwallsrivastavaa/BharatFDAssignment
-  cd BharatFDAssignment
+  git clone https://github.com/ujjwallsrivastavaa/BKAssignment
+  cd BKAssignment
   ```
-### Step 2: Create and Activate a Virtual Environment
+### Step 2: Set Up a Virtual Environment
 On macOS/Linux:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 On Windows:
 
 ```bash
-python -m venv venv
-venv\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate
 ```
 
 ### Step 3: Install Dependencies
@@ -45,7 +45,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Step 4: Move to the server directory
+### Step 4: Navigate to the Server Directory
 
 ```bash
 cd server
@@ -58,25 +58,24 @@ Run the migrations to set up the database:
 python manage.py migrate
 ```
 
-### Step 6: Run the Development Server
+### Step 6: Start the Development Server
 
 ```bash
 python manage.py runserver
 ```
-Your application will now be accessible at http://127.0.0.1:8000.
+The API will be available at http://127.0.0.1:8000.
 
 ## API Endpoints
-### 1. Get All FAQs
+### 1. Retrieve All FAQs
 #### Request
 ```bash
 http://127.0.0.1:8000/api/faqs/ 
 ```
-Optional Query Parameter: lang – The language code (e.g., en, hi, bn). If not provided, the default language is English (en).
+Optional Query Parameter: lang – The language code (e.g., en, hi, bn). If omitted, English (en) is used as the default.
 
 #### Response
-- 200 OK – Returns a list of FAQs. If the requested language translation is available, it will return the translated FAQs. Otherwise, it will try to convert the FAQs to the requested language using Google Translate and return the translated content.
-- If the requested language cannot be translated (e.g., due to a failed API call), the API will fall back to returning the FAQs in English.
-
+- 2200 OK – Returns a list of FAQs. If a translation exists, it is provided; otherwise, the API generates one using Google Translate.
+- If translation fails (e.g., due to API issues), English content is returned as a fallback.
 
 
   ```json
@@ -91,18 +90,18 @@ Optional Query Parameter: lang – The language code (e.g., en, hi, bn). If not 
       }
   ]
   ```
-#### Language Fallback Behavior:
+#### Language Fallback Mechanism:
 
-If the requested language is not present in the database, the API will attempt to convert the FAQ content into the requested language using Google Translate. If the translation fails, the content will fall back to the default English language (i.e., en). In case of translation failure, the FAQ content will be returned in English.
+If the requested language is missing, the API attempts translation via Google Translate. If unsuccessful, it defaults to English.
 
 ## Testing
 
-To test the API, you can use pytest. The project includes tests for the following cases:
+The API can be tested using pytest, with coverage for:
 
-- Retrieving FAQs in English.
-- Retrieving FAQs in other languages (e.g., French).
-- Retrieving FAQs with a nonexistent language code.
-- Testing model behavior and database interactions. This includes testing save functions on the models.
+- Fetching FAQs in English.
+- Retrieving translated FAQs. (e.g., German).
+- Handling invalid language codes.
+- Model and database interactions, including save functions.
 
 ### Run Tests
 
